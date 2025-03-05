@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function getComputerChoice() {
+        randVal = Math.floor(Math.random() * 3);
+        if (randVal == 0) {
+          computerChoice = "rock";
+        } else if (randVal == 1) {
+          computerChoice = "paper";
+        } else {
+          computerChoice = "scissors";
+        }
+        return computerChoice;
+      }
+
+      function getHumanChoice() {
+        humanChoice = prompt();
+        loweredHumanChoice = humanChoice.toLowerCase();
+        return loweredHumanChoice;
+      }
+
+      function playGame() {
+        let humanScore = 0;
+        let computerScore = 0;
+
+        function playRound(humanSelection, computerSelection) {
+          if (
+            (humanSelection == "rock" && computerSelection == "rock") ||
+            (humanSelection == "paper" && computerSelection == "paper") ||
+            (humanSelection == "scissors" && computerSelection == "scissors")
+          ) {
+            console.log("It is a draw");
+          } else if (
+            (humanSelection == "rock" && computerSelection == "paper") ||
+            (humanSelection == "paper" && computerSelection == "scissors") ||
+            (humanSelection == "scissors" && computerSelection == "rock")
+          ) {
+            computerScore++;
+            console.log(
+              `You lose! ${computerSelection} beats ${humanSelection}`
+            );
+          } else {
+            humanScore++;
+            console.log(
+              `You win! ${humanSelection} beats ${computerSelection}`
+            );
+          }
+        }
+
+        for (let i = 0; i < 5; i++) {
+          const humanSelection = getHumanChoice();
+          const computerSelection = getComputerChoice();
+          playRound(humanSelection, computerSelection);
+        }
+
+        if (humanScore > computerScore) {
+          console.log(`You are the winner with a score of ${humanScore}`);
+        } else if (humanScore == computerScore) {
+          console.log(`It is a draw`);
+        } else {
+          console.log(`You are the winner with a score of ${humanScore}`)
+        }
+      }
+
+      playGame();
+    </script>
+  </body>
+</html>
