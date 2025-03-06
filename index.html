@@ -8,6 +8,14 @@
 </head>
 
 <body>
+  <div class="scores">
+    <div id="human-score">
+      <p>Your score: </p>
+    </div>
+    <div id="computer-score">
+      <p>Computer score: </p>
+    </div>
+  </div>
   <button id="rock">Rock</button>
   <button id="paper">Paper</button>
   <button id="scissors">Scissors</button>
@@ -33,6 +41,22 @@
       resultDisplay.appendChild(resultText);
     }
 
+    function checkWin() {
+      if (humanScore == 5) {
+        const winText = document.createElement("p");
+        winText.textContent = "You have won the game!";
+        resultDisplay.appendChild(winText);
+        gameActive = false;
+      } else if (computerScore == 5) {
+        const loseText = document.createElement("p");
+        loseText.textContent = "You have lost the game.";
+        resultDisplay.appendChild(loseText);
+        gameActive = false;
+      }
+      return gameActive;
+    }
+
+
     function playRound() {
       humanSelection = event.target.id;
       computerSelection = getComputerChoice();
@@ -49,24 +73,43 @@
         (humanSelection == "scissors" && computerSelection == "rock")
       ) {
         computerScore++;
+        computerScoreText.textContent = computerScore;
         result = `You lose! ${computerSelection} beats ${humanSelection}`;
       } else {
         humanScore++;
+        humanScoreText.textContent = humanScore;
         result = `You win! ${humanSelection} beats ${computerSelection}`;
       }
       displayResult(result);
+      checkWin();
+      console.log(gameActive);
     }
 
     let humanScore = 0;
     let computerScore = 0;
-    const resultDisplay = document.querySelector("div");
+    let gameActive = true;
+    const humanScoreDiv = document.querySelector("#human-score");
+    const computerScoreDiv = document.querySelector("#computer-score");
+    const humanScoreText = document.createElement("p");
+    const computerScoreText = document.createElement("p");
+    humanScoreText.textContent = humanScore;
+    computerScoreText.textContent = computerScore;
+    humanScoreDiv.appendChild(humanScoreText);
+    computerScoreDiv.appendChild(computerScoreText);
+
+    const resultDisplay = document.querySelector("#result-display");
     const resultText = document.createElement("p");
 
     let buttons = document.querySelectorAll('button');
 
+
     buttons.forEach((button) => {
-      button.addEventListener('click', playRound);
+        button.addEventListener('click', function () {
+          if (!gameActive) return;
+          playRound();
+        });
     });
+
   </script>
 </body>
 
