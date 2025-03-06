@@ -1,74 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <script>
-      function getComputerChoice() {
-        randVal = Math.floor(Math.random() * 3);
-        if (randVal == 0) {
-          computerChoice = "rock";
-        } else if (randVal == 1) {
-          computerChoice = "paper";
-        } else {
-          computerChoice = "scissors";
-        }
-        return computerChoice;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="rock">Rock</button>
+  <button id="paper">Paper</button>
+  <button id="scissors">Scissors</button>
+  <div id="result-display"></div>
+  <script>
+    function getComputerChoice() {
+      randVal = Math.floor(Math.random() * 3);
+      if (randVal == 0) {
+        computerChoice = "rock";
+      } else if (randVal == 1) {
+        computerChoice = "paper";
+      } else {
+        computerChoice = "scissors";
       }
+      return computerChoice;
+    }
 
-      function getHumanChoice() {
-        humanChoice = prompt();
-        loweredHumanChoice = humanChoice.toLowerCase();
-        return loweredHumanChoice;
+    function displayResult(result) {
+      const resultDisplay = document.querySelector("div");
+      const resultText = document.createElement("p");
+      resultText.textContent = result;
+      resultDisplay.appendChild(resultText);
+    }
+
+    function playRound() {
+      humanSelection = event.target.id;
+      computerSelection = getComputerChoice();
+
+      if (
+        (humanSelection == "rock" && computerSelection == "rock") ||
+        (humanSelection == "paper" && computerSelection == "paper") ||
+        (humanSelection == "scissors" && computerSelection == "scissors")
+      ) {
+        result = "It is a draw.";
+      } else if (
+        (humanSelection == "rock" && computerSelection == "paper") ||
+        (humanSelection == "paper" && computerSelection == "scissors") ||
+        (humanSelection == "scissors" && computerSelection == "rock")
+      ) {
+        computerScore++;
+        result = `You lose! ${computerSelection} beats ${humanSelection}`;
+      } else {
+        humanScore++;
+        result = `You win! ${humanSelection} beats ${computerSelection}`;
       }
+      displayResult(result);
+    }
 
-      function playGame() {
-        let humanScore = 0;
-        let computerScore = 0;
+    let humanScore = 0;
+    let computerScore = 0;
 
-        function playRound(humanSelection, computerSelection) {
-          if (
-            (humanSelection == "rock" && computerSelection == "rock") ||
-            (humanSelection == "paper" && computerSelection == "paper") ||
-            (humanSelection == "scissors" && computerSelection == "scissors")
-          ) {
-            console.log("It is a draw");
-          } else if (
-            (humanSelection == "rock" && computerSelection == "paper") ||
-            (humanSelection == "paper" && computerSelection == "scissors") ||
-            (humanSelection == "scissors" && computerSelection == "rock")
-          ) {
-            computerScore++;
-            console.log(
-              `You lose! ${computerSelection} beats ${humanSelection}`
-            );
-          } else {
-            humanScore++;
-            console.log(
-              `You win! ${humanSelection} beats ${computerSelection}`
-            );
-          }
-        }
+    let buttons = document.querySelectorAll('button');
 
-        for (let i = 0; i < 5; i++) {
-          const humanSelection = getHumanChoice();
-          const computerSelection = getComputerChoice();
-          playRound(humanSelection, computerSelection);
-        }
+    buttons.forEach((button) => {
+      button.addEventListener('click', playRound);
+    });
+  </script>
+</body>
 
-        if (humanScore > computerScore) {
-          console.log(`You are the winner with a score of ${humanScore}`);
-        } else if (humanScore == computerScore) {
-          console.log(`It is a draw`);
-        } else {
-          console.log(`You are the winner with a score of ${humanScore}`)
-        }
-      }
-
-      playGame();
-    </script>
-  </body>
 </html>
