@@ -26,8 +26,9 @@
     }
 
     function displayResult(result) {
-      const resultDisplay = document.querySelector("div");
-      const resultText = document.createElement("p");
+      if (resultDisplay.contains(resultText)) {
+        const throwawayResult = resultDisplay.removeChild(resultText);
+      }
       resultText.textContent = result;
       resultDisplay.appendChild(resultText);
     }
@@ -58,6 +59,8 @@
 
     let humanScore = 0;
     let computerScore = 0;
+    const resultDisplay = document.querySelector("div");
+    const resultText = document.createElement("p");
 
     let buttons = document.querySelectorAll('button');
 
